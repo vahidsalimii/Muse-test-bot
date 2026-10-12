@@ -2,6 +2,21 @@
 export default {
   async fetch(request, env) {
     console.log('HAS_TOKEN:', !!env.BOT_TOKEN, 'LEN:', (env.BOT_TOKEN||'').length);
+
+    // اندپوینت تست — فقط برای دیباگ
+    if (new URL(request.url).pathname === '/test') {
+      let chatId = 756119691;
+      try { const b = await request.json(); if (b.chat_id) chatId = b.chat_id; } catch(e) {}
+      const r = await fetch(
+        `https://tapi.bale.ai/bot${env.BOT_TOKEN}/sendMessage`,
+        { method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: 'تست از ورکر 🧪' }) }
+      );
+      const t = await r.text();
+      return new Response('STATUS:' + r.status + '\nBODY:' + t.slice(0, 300));
+    }
+
     if (request.method === 'POST') {
       try {
         const update = await request.json();
