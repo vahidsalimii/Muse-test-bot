@@ -1,4 +1,4 @@
-// بات تلگرام ساده — جواب /start و تکرار پیام
+// بات بله ساده — جواب /start و تکرار پیام
 export default {
   async fetch(request, env) {
     if (request.method === 'POST') {
@@ -14,7 +14,7 @@ export default {
             reply = 'گفتی: ' + msg.text;
           }
           await fetch(
-            `https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage`,
+            `https://tapi.bale.ai/bot${env.BOT_TOKEN}/sendMessage`,
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
